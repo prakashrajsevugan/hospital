@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hospital Emergency System</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<header>
+    <h1>Hospital Emergency Management System</h1>
+</header>
+
+<main>
+
+    <!-- Patient Records -->
+    <section class="card">
+        <h2>📋 Patient Records (Linked List)</h2>
+        <form action="/add_patient" method="POST">
+            <input type="number" name="id" placeholder="Patient ID" required>
+            <input type="text" name="name" placeholder="Patient Name" required>
+            <button>➕ Add Patient</button>
+        </form>
+
+        <div class="display-area">
+            {% if patients %}
+            {% for p in patients %}
+                <p>🏥 ID: {{p[0]}} - {{p[1]}}</p>
+            {% endfor %}
+            {% else %}
+            <p>No records yet.</p>
+            {% endif %}
+        </div>
+    </section>
+
+    <!-- Queue -->
+    <section class="card">
+        <h2>⏱️ Patient Queue</h2>
+        <form action="/add_queue" method="POST">
+            <input type="text" name="name" placeholder="Patient Name" required>
+            <button>➕ Add to Queue</button>
+        </form>
+        <a href="/process_queue"><button class="act-btn">▶️ Process Next</button></a>
+
+        <div class="display-area">
+            {% if queue %}
+            {% for q in queue %}
+                <p>👤 {{q}}</p>
+            {% endfor %}
+            {% else %}
+            <p>No requests.</p>
+            {% endif %}
+        </div>
+    </section>
+
+    <!-- Stack -->
+    <section class="card">
+        <h2>🚨 Incident Log (Stack)</h2>
+        <form action="/add_incident" method="POST">
+            <input type="text" name="incident" placeholder="Incident Detail" required>
+            <button>📝 Log Incident</button>
+        </form>
+        <a href="/undo_incident"><button class="act-btn">↩️ Undo Last</button></a>
+
+        <div class="display-area">
+            {% if incidents %}
+            {% for i in incidents %}
+                <p>⚠️ {{i}}</p>
+            {% endfor %}
+            {% else %}
+            <p>No incidents.</p>
+            {% endif %}
+        </div>
+    </section>
+
+    <!-- Tree -->
+    <section class="card">
+        <h2>🏢 Hospital Hierarchy (Tree)</h2>
+        <div class="display-area">
+            <div class="hierarchy-tree">
+                <div class="tree-node">
+                    <strong>👔 Hospital Director</strong>
+                    <div class="departments">
+                        {% for dept, staff_list in hierarchy["Hospital Director"]["departments"].items() %}
+                        <div class="department">
+                            <div class="dept-header" onclick="toggleDept('{{dept}}')">
+                                <span class="dept-name">�‍⚕️ {{dept}} ({{staff_list|length}})</span>
+                                <span class="toggle-icon" id="icon-{{dept}}">▼</span>
+                            </div>
+                            <div class="dept-content" id="dept-{{dept}}">
+                                <form action="/add_staff" method="POST" class="add-staff-form">
+                                    <input type="hidden" name="department" value="{{dept}}">
+                                    <input type="text" name="staff_name" placeholder="Add staff member" required>
+                                    <button>➕ Add</button>
+                                </form>
+                                <div class="staff-list">
+                                    {% if staff_list %}
+                                        {% for staff in staff_list %}
+                                        <div class="staff-item">� {{staff}}</div>
+                                        {% endfor %}
+                                    {% else %}
+                                        <div class="staff-item">No staff added yet</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Graph -->
+    <section class="card">
+        <h2>🗺️ City Map (Graph)</h2>
+        <form action="/add_route" method="POST">
+            <input name="city_a" placeholder="City A" required>
+            <input name="city_b" placeholder="City B" required>
+            <button>🛣️ Add Route</button>
+        </form>
+
+        <div class="display-area">
+            {% if graph %}
+            {% for city, routes in graph.items() %}
+                <p>📍 {{city}} → {{routes}}</p>
+            {% endfor %}
+            {% else %}
+            <p>No routes.</p>
+            {% endif %}
+        </div>
+    </section>
+
+    <!-- Hash -->
+    <section class="card">
+        <h2>🔍 Emergency ID Lookup (Hash)</h2>
+        <form action="/add_hash" method="POST">
+            <input type="number" name="pid" placeholder="Emergency ID" required>
+            <input type="text" name="name" placeholder="Patient Name" required>
+            <button>💾 Store</button>
+        </form>
+
+        <form action="/search_hash" method="POST">
+            <input type="number" name="pid" placeholder="Search ID" required>
+            <button>🔎 Search</button>
+        </form>
+
+        <div class="display-area">
+            {% set has_data = false %}
+            {% for bucket in hash_data %}
+                {% if bucket %}
+                    {% set has_data = true %}
+                    {% for pid, name in bucket %}
+                        <p>🆔 ID: {{pid}} → {{name}}</p>
+                    {% endfor %}
+                {% endif %}
+            {% endfor %}
+            {% if not has_data %}
+                <p>No emergency records stored yet.</p>
+            {% endif %}
+        </div>
+    </section>
+
+</main>
+
+<footer>
+    <p>© 2025 Hospital Emergency System</p>
+</footer>
+
+<script>
+function toggleDept(dept) {
+    const content = document.getElementById('dept-' + dept);
+    const icon = document.getElementById('icon-' + dept);
+    
+    if (content.style.display === 'none' || content.style.display === '') {
+        content.style.display = 'block';
+        icon.textContent = '▲';
+    } else {
+        content.style.display = 'none';
+        icon.textContent = '▼';
+    }
+}
+
+// Initialize all departments as collapsed
+document.addEventListener('DOMContentLoaded', function() {
+    const allDepts = document.querySelectorAll('.dept-content');
+    allDepts.forEach(dept => {
+        dept.style.display = 'none';
+    });
+});
+</script>
+
+</body>
+</html>
