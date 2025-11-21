@@ -4,11 +4,25 @@
     box-sizing: border-box;
 }
 
+html {
+    /* Improve font rendering on mobile */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    /* Prevent text size adjustment on orientation change */
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+}
+
 body {
     margin: 0;
     background: linear-gradient(135deg, #ffffff 0%, #ffffff 100%);
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     min-height: 100vh;
+    /* Enable smooth scrolling */
+    scroll-behavior: smooth;
+    /* Prevent horizontal scroll */
+    overflow-x: hidden;
+    max-width: 100vw;
 }
 
 header {
@@ -30,9 +44,10 @@ main {
     padding: 30px 20px;
     display: grid;
     gap: 25px;
-    grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr));
     max-width: 1400px;
     margin: 0 auto;
+    width: 100%;
 }
 
 .card {
@@ -45,9 +60,12 @@ main {
     animation: fadeIn 0.5s ease-in;
 }
 
-.card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 12px 35px rgba(0,0,0,0.25);
+/* Desktop hover only */
+@media (hover: hover) and (pointer: fine) {
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 35px rgba(0,0,0,0.25);
+    }
 }
 
 @keyframes fadeIn {
@@ -108,15 +126,22 @@ button {
     font-weight: 600;
     transition: all 0.3s ease;
     box-shadow: 0 4px 10px rgba(102, 126, 234, 0.3);
+    /* Minimum touch target size for mobile */
+    min-height: 44px;
+    /* Prevent double-tap zoom on mobile */
+    touch-action: manipulation;
 }
 
-button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 15px rgba(102, 126, 234, 0.4);
+@media (hover: hover) and (pointer: fine) {
+    button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(102, 126, 234, 0.4);
+    }
 }
 
 button:active {
     transform: translateY(0);
+    opacity: 0.9;
 }
 
 .act-btn {
@@ -216,7 +241,7 @@ a {
 .delete-btn {
     background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
     color: white;
-    padding: 6px 12px;
+    padding: 8px 14px;
     border-radius: 6px;
     text-decoration: none;
     font-size: 16px;
@@ -224,11 +249,25 @@ a {
     cursor: pointer;
     box-shadow: 0 2px 8px rgba(245, 87, 108, 0.3);
     margin-left: 10px;
+    /* Minimum touch target */
+    min-width: 44px;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    touch-action: manipulation;
 }
 
-.delete-btn:hover {
-    transform: scale(1.1);
-    box-shadow: 0 4px 12px rgba(245, 87, 108, 0.5);
+@media (hover: hover) and (pointer: fine) {
+    .delete-btn:hover {
+        transform: scale(1.1);
+        box-shadow: 0 4px 12px rgba(245, 87, 108, 0.5);
+    }
+}
+
+.delete-btn:active {
+    transform: scale(0.95);
+    opacity: 0.9;
 }
 
 footer {
@@ -285,10 +324,19 @@ footer p {
     color: white;
     cursor: pointer;
     transition: all 0.3s ease;
+    min-height: 44px;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
 }
 
-.dept-header:hover {
-    background: linear-gradient(135deg, #5568d3 0%, #663a8e 100%);
+@media (hover: hover) and (pointer: fine) {
+    .dept-header:hover {
+        background: linear-gradient(135deg, #5568d3 0%, #663a8e 100%);
+    }
+}
+
+.dept-header:active {
+    opacity: 0.9;
 }
 
 .dept-name {
@@ -338,21 +386,169 @@ footer p {
     box-shadow: 0 1px 3px rgba(0,0,0,0.05);
 }
 
+/* Tablet and Mobile Responsive Design */
+@media (max-width: 1024px) {
+    main {
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 20px;
+    }
+}
+
 @media (max-width: 768px) {
+    header {
+        padding: 20px 15px;
+    }
+    
     header h1 {
-        font-size: 1.8em;
+        font-size: 1.6em;
+        letter-spacing: 0.5px;
     }
     
     main {
         grid-template-columns: 1fr;
-        padding: 20px 15px;
+        padding: 15px 10px;
+        gap: 15px;
     }
     
     .card {
-        padding: 20px;
+        padding: 18px;
+        border-radius: 12px;
+    }
+    
+    .card h2 {
+        font-size: 1.2em;
+        margin-bottom: 15px;
+    }
+    
+    form {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    input {
+        width: 100%;
+        min-width: 100%;
+        padding: 12px;
+        font-size: 16px; /* Prevents zoom on iOS */
+    }
+    
+    button {
+        width: 100%;
+        padding: 12px 20px;
+        font-size: 15px;
+    }
+    
+    .act-btn {
+        width: 100%;
+        text-align: center;
+    }
+    
+    .display-area {
+        max-height: 250px;
+        font-size: 13px;
+    }
+    
+    .display-area p {
+        font-size: 13px;
+        padding: 10px;
+    }
+    
+    .item-with-delete {
+        padding: 10px;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+    
+    .item-with-delete span {
+        font-size: 13px;
+        word-break: break-word;
+    }
+    
+    .delete-btn {
+        padding: 8px 14px;
+        font-size: 18px;
+        margin-left: 0;
+    }
+    
+    /* Tree/Hierarchy mobile adjustments */
+    .departments {
+        margin-left: 10px;
+    }
+    
+    .dept-header {
+        padding: 10px 12px;
+        font-size: 13px;
+    }
+    
+    .dept-content {
+        padding: 12px;
+    }
+    
+    .staff-item {
+        font-size: 13px;
+        padding: 8px 10px;
+    }
+    
+    .add-staff-form input {
+        font-size: 15px;
+    }
+}
+
+/* Small Mobile Phones */
+@media (max-width: 480px) {
+    header h1 {
+        font-size: 1.3em;
+    }
+    
+    main {
+        padding: 10px 8px;
+    }
+    
+    .card {
+        padding: 15px;
+    }
+    
+    .card h2 {
+        font-size: 1.1em;
+        padding-bottom: 8px;
     }
     
     input, button {
-        padding: 10px 12px;
+        font-size: 14px;
+    }
+    
+    .display-area {
+        padding: 12px;
+        max-height: 200px;
+    }
+    
+    .item-with-delete {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .delete-btn {
+        align-self: flex-end;
+        width: auto;
+        min-width: 80px;
+    }
+}
+
+/* Landscape mode for phones */
+@media (max-width: 896px) and (orientation: landscape) {
+    header {
+        padding: 15px 10px;
+    }
+    
+    header h1 {
+        font-size: 1.4em;
+    }
+    
+    main {
+        padding: 15px 10px;
+    }
+    
+    .display-area {
+        max-height: 180px;
     }
 }
