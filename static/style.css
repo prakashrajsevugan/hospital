@@ -195,6 +195,42 @@ a {
     border-left: 3px solid #667eea;
 }
 
+/* Item with delete button */
+.item-with-delete {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 12px;
+    margin: 5px 0;
+    background: white;
+    border-radius: 6px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.item-with-delete span {
+    flex: 1;
+    font-size: 14px;
+    color: #333;
+}
+
+.delete-btn {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    color: white;
+    padding: 6px 12px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(245, 87, 108, 0.3);
+    margin-left: 10px;
+}
+
+.delete-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(245, 87, 108, 0.5);
+}
+
 footer {
     background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
     padding: 20px;

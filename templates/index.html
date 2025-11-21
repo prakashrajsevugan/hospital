@@ -26,7 +26,10 @@
         <div class="display-area">
             {% if patients %}
             {% for p in patients %}
-                <p>🏥 ID: {{p[0]}} - {{p[1]}}</p>
+                <div class="item-with-delete">
+                    <span>🏥 ID: {{p[0]}} - {{p[1]}}</span>
+                    <a href="/delete_patient/{{p[0]}}" class="delete-btn" onclick="return confirm('Delete patient {{p[1]}}?')">🗑️</a>
+                </div>
             {% endfor %}
             {% else %}
             <p>No records yet.</p>

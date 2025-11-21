@@ -34,6 +34,24 @@ class PatientList:
             temp = temp.next
         return result
 
+    def delete(self, pid):
+        if not self.head:
+            return False
+        
+        # If head node needs to be deleted
+        if self.head.id == pid:
+            self.head = self.head.next
+            return True
+        
+        # Search for the node to delete
+        temp = self.head
+        while temp.next:
+            if temp.next.id == pid:
+                temp.next = temp.next.next
+                return True
+            temp = temp.next
+        return False
+
 
 patient_records = PatientList()
 
@@ -121,6 +139,12 @@ def add_patient():
     pid = int(request.form["id"])
     name = request.form["name"]
     patient_records.add(pid, name)
+    return redirect("/")
+
+
+@app.route("/delete_patient/<int:pid>")
+def delete_patient(pid):
+    patient_records.delete(pid)
     return redirect("/")
 
 
