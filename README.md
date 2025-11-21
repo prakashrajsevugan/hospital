@@ -55,6 +55,8 @@ pip install -r requirements.txt
 
 ## 💻 Usage
 
+### Local Development
+
 1. Run the application:
 ```bash
 python app.py
@@ -64,6 +66,18 @@ python app.py
 ```
 http://127.0.0.1:5000
 ```
+
+### Deploy to Render
+
+1. Fork or clone this repository
+2. Sign up at [Render.com](https://render.com)
+3. Click "New +" → "Web Service"
+4. Connect your GitHub repository
+5. Render will automatically detect the configuration from `render.yaml`
+6. Click "Create Web Service"
+7. Wait for deployment to complete!
+
+The app will be live at: `https://your-app-name.onrender.com`
 
 3. Interact with different modules:
    - **Add patients** to the linked list
