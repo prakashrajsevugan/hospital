@@ -90,6 +90,16 @@ def add_route(a, b):
     city_graph.setdefault(a, []).append(b)
     city_graph.setdefault(b, []).append(a)
 
+def delete_route(a, b):
+    if a in city_graph and b in city_graph[a]:
+        city_graph[a].remove(b)
+        if not city_graph[a]:  # Remove empty list
+            del city_graph[a]
+    if b in city_graph and a in city_graph[b]:
+        city_graph[b].remove(a)
+        if not city_graph[b]:  # Remove empty list
+            del city_graph[b]
+
 # ---------------------------------------------------------------
 # Hash Table: Emergency ID lookup
 # ---------------------------------------------------------------
@@ -189,6 +199,12 @@ def add_route_web():
     a = request.form["city_a"]
     b = request.form["city_b"]
     add_route(a, b)
+    return redirect("/")
+
+
+@app.route("/delete_route/<city_a>/<city_b>")
+def delete_route_web(city_a, city_b):
+    delete_route(city_a, city_b)
     return redirect("/")
 
 

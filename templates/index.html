@@ -127,7 +127,12 @@
         <div class="display-area">
             {% if graph %}
             {% for city, routes in graph.items() %}
-                <p>📍 {{city}} → {{routes}}</p>
+                {% for route in routes %}
+                <div class="item-with-delete">
+                    <span>📍 {{city}} ↔ {{route}}</span>
+                    <a href="/delete_route/{{city}}/{{route}}" class="delete-btn" onclick="return confirm('Delete route between {{city}} and {{route}}?')">🗑️</a>
+                </div>
+                {% endfor %}
             {% endfor %}
             {% else %}
             <p>No routes.</p>
