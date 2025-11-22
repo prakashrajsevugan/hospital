@@ -155,7 +155,10 @@
                 {% if bucket %}
                     {% set has_data = true %}
                     {% for pid, name in bucket %}
-                        <p>🆔 ID: {{pid}} → {{name}}</p>
+                        <div class="item-with-delete">
+                            <span>🆔 ID: {{pid}} → {{name}}</span>
+                            <a href="/delete_hash/{{pid}}" class="delete-btn" onclick="return confirm('Delete emergency ID {{pid}} ({{name}})?')">🗑️</a>
+                        </div>
                     {% endfor %}
                 {% endif %}
             {% endfor %}

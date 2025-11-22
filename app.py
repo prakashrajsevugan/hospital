@@ -113,6 +113,14 @@ class EmergencyHash:
                 return v
         return None
 
+    def delete(self, pid):
+        idx = self.hash_fn(pid)
+        for i, (k, v) in enumerate(self.table[idx]):
+            if k == pid:
+                self.table[idx].pop(i)
+                return True
+        return False
+
 
 hash_table = EmergencyHash()
 
@@ -197,6 +205,12 @@ def search_hash():
     pid = int(request.form["pid"])
     result = hash_table.search(pid)
     return f"<h1>Search Result: {result if result else 'Not Found'}</h1><a href='/'>Back</a>"
+
+
+@app.route("/delete_hash/<int:pid>")
+def delete_hash(pid):
+    hash_table.delete(pid)
+    return redirect("/")
 
 
 @app.route("/add_staff", methods=["POST"])
