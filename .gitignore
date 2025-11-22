@@ -48,3 +48,6 @@ instance/
 # Environment variables
 .env
 .flaskenv
+
+# Data files
+hospital_data.json

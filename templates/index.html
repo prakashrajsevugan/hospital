@@ -9,24 +9,54 @@
 <body>
 
 <header>
-    <h1>Hospital Emergency Management System</h1>
+    <div class="header-content">
+        <h1>Hospital Emergency Management System</h1>
+        <div class="user-info">
+            <span class="user-badge">👤 {{ username }} ({{ role }})</span>
+            <a href="/logout" class="logout-btn">🚪 Logout</a>
+        </div>
+    </div>
+    <div class="stats-bar" id="statsBar">
+        <span>👥 <span id="totalPatients">0</span> Patients</span>
+        <span>⏱️ <span id="queueLength">0</span> in Queue</span>
+        <span>🚨 <span id="totalIncidents">0</span> Incidents</span>
+        <span>🗺️ <span id="totalRoutes">0</span> Routes</span>
+    </div>
 </header>
+
+<!-- Flash Messages -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <div class="flash-container">
+    {% for category, message in messages %}
+      <div class="flash flash-{{ category }}">
+        {{ message }}
+        <button class="flash-close" onclick="this.parentElement.remove()">×</button>
+      </div>
+    {% endfor %}
+    </div>
+  {% endif %}
+{% endwith %}
 
 <main>
 
     <!-- Patient Records -->
     <section class="card">
         <h2>📋 Patient Records (Linked List)</h2>
+        <div class="card-actions">
+            <input type="text" id="searchPatients" placeholder="🔍 Search patients..." onkeyup="searchTable('searchPatients', 'patientList')">
+            <a href="/export/patients" class="export-btn" title="Export to CSV">📥 Export</a>
+        </div>
         <form action="/add_patient" method="POST">
             <input type="number" name="id" placeholder="Patient ID" required>
             <input type="text" name="name" placeholder="Patient Name" required>
             <button>➕ Add Patient</button>
         </form>
 
-        <div class="display-area">
+        <div class="display-area" id="patientList">
             {% if patients %}
             {% for p in patients %}
-                <div class="item-with-delete">
+                <div class="item-with-delete searchable-item">
                     <span>🏥 ID: {{p[0]}} - {{p[1]}}</span>
                     <a href="/delete_patient/{{p[0]}}" class="delete-btn" onclick="return confirm('Delete patient {{p[1]}}?')">🗑️</a>
                 </div>
@@ -40,6 +70,9 @@
     <!-- Queue -->
     <section class="card">
         <h2>⏱️ Patient Queue</h2>
+        <div class="card-actions">
+            <a href="/export/queue" class="export-btn" title="Export to CSV">📥 Export</a>
+        </div>
         <form action="/add_queue" method="POST">
             <input type="text" name="name" placeholder="Patient Name" required>
             <button>➕ Add to Queue</button>
@@ -146,6 +179,10 @@
     <!-- Hash -->
     <section class="card">
         <h2>🔍 Emergency ID Lookup (Hash)</h2>
+        <div class="card-actions">
+            <input type="text" id="searchEmergency" placeholder="🔍 Search by ID or name..." onkeyup="searchTable('searchEmergency', 'emergencyList')">
+            <a href="/export/emergency" class="export-btn" title="Export to CSV">📥 Export</a>
+        </div>
         <form action="/add_hash" method="POST">
             <input type="number" name="pid" placeholder="Emergency ID" required>
             <input type="text" name="name" placeholder="Patient Name" required>
@@ -157,13 +194,13 @@
             <button>🔎 Search</button>
         </form>
 
-        <div class="display-area">
+        <div class="display-area" id="emergencyList">
             {% set has_data = false %}
             {% for bucket in hash_data %}
                 {% if bucket %}
                     {% set has_data = true %}
                     {% for pid, name in bucket %}
-                        <div class="item-with-delete">
+                        <div class="item-with-delete searchable-item">
                             <span>🆔 ID: {{pid}} → {{name}}</span>
                             <a href="/delete_hash/{{pid}}" class="delete-btn" onclick="return confirm('Delete emergency ID {{pid}} ({{name}})?')">🗑️</a>
                         </div>
@@ -196,12 +233,59 @@ function toggleDept(dept) {
     }
 }
 
+// Search functionality
+function searchTable(inputId, containerId) {
+    const input = document.getElementById(inputId);
+    const filter = input.value.toUpperCase();
+    const container = document.getElementById(containerId);
+    const items = container.getElementsByClassName('searchable-item');
+    
+    for (let i = 0; i < items.length; i++) {
+        const text = items[i].textContent || items[i].innerText;
+        if (text.toUpperCase().indexOf(filter) > -1) {
+            items[i].style.display = '';
+        } else {
+            items[i].style.display = 'none';
+        }
+    }
+}
+
+// Load statistics
+function loadStats() {
+    fetch('/stats')
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('totalPatients').textContent = data.total_patients;
+            document.getElementById('queueLength').textContent = data.queue_length;
+            document.getElementById('totalIncidents').textContent = data.total_incidents;
+            document.getElementById('totalRoutes').textContent = data.total_routes;
+        })
+        .catch(error => console.error('Error loading stats:', error));
+}
+
+// Auto-hide flash messages
+function autoHideFlashes() {
+    const flashes = document.querySelectorAll('.flash');
+    flashes.forEach(flash => {
+        setTimeout(() => {
+            flash.style.animation = 'slideOut 0.5s ease';
+            setTimeout(() => flash.remove(), 500);
+        }, 5000);
+    });
+}
+
 // Initialize all departments as collapsed
 document.addEventListener('DOMContentLoaded', function() {
     const allDepts = document.querySelectorAll('.dept-content');
     allDepts.forEach(dept => {
         dept.style.display = 'none';
     });
+    
+    // Load statistics
+    loadStats();
+    
+    // Auto-hide flash messages
+    autoHideFlashes();
 });
 </script>
 
