@@ -4,35 +4,72 @@ A comprehensive web-based Hospital Emergency Management System built with Flask 
 
 ## ✨ Features
 
-### 📋 Patient Records (Linked List)
+### � Authentication System
+- Secure login/logout functionality
+- Role-based access (Admin/Staff)
+- Session management
+- Demo credentials provided
+
+### �📋 Patient Records (Linked List)
 - Add and manage patient records with unique IDs
+- Delete patient records with confirmation
+- Search patients by ID or name
+- Export to CSV
 - Efficient sequential data storage using linked list implementation
 
 ### ⏱️ Patient Queue (Queue)
 - FIFO-based patient queue management
 - Process patients in order of arrival
-- Real-time queue display
+- Export queue to CSV
+- Real-time queue display with counter
 
 ### 🚨 Incident Log (Stack)
 - Log emergency incidents
 - LIFO-based incident tracking
 - Undo last incident feature
+- Real-time incident counter
 
 ### 🏢 Hospital Hierarchy (Tree)
 - Interactive department structure
 - Collapsible department views
-- Add staff members to different departments (Medical, Surgery, Nursing)
-- Dynamic staff management
+- Add/delete staff members to different departments (Medical, Surgery, Nursing)
+- Dynamic staff management with counters
+- Department-wise staff organization
 
 ### 🗺️ City Map (Graph)
 - Bidirectional city route mapping
-- Add routes between cities
-- Visual route display
+- Add/delete routes between cities
+- Visual route display with delete options
+- Route counter
 
 ### 🔍 Emergency ID Lookup (Hash Table)
 - Fast patient lookup by emergency ID
+- Search by ID or name
+- Delete emergency records
+- Export to CSV
 - Hash-based storage and retrieval
 - Collision handling with chaining
+
+### 💾 Data Persistence
+- Auto-save all data to JSON file
+- Load data on startup
+- Persistent storage across sessions
+
+### 📊 Real-Time Statistics
+- Live dashboard with counts
+- Patient count, queue length
+- Incident tracking, route statistics
+
+### 🔔 Notifications
+- Toast notifications for all actions
+- Success/warning messages
+- Auto-dismiss after 5 seconds
+
+### 📥 Export Functionality
+- Export patients to CSV
+- Export queue to CSV
+- Export emergency IDs to CSV
+- Timestamped file names
 
 ## 🚀 Installation
 
@@ -79,25 +116,34 @@ http://127.0.0.1:5000
 
 The app will be live at: `https://your-app-name.onrender.com`
 
-3. Interact with different modules:
-   - **Add patients** to the linked list
+3. **Login** with demo credentials:
+   - Admin: `admin` / `admin123`
+   - Staff: `staff` / `staff123`
+
+4. Interact with different modules:
+   - **Add/Delete patients** with search functionality
    - **Queue patients** for processing
    - **Log incidents** and undo if needed
-   - **Click department heads** to expand and add staff members
-   - **Add city routes** to build the map
-   - **Store and search** emergency IDs
+   - **Manage staff** in different departments
+   - **Add/Delete city routes** to build the map
+   - **Store/Search/Delete** emergency IDs
+   - **Export data** to CSV files
+   - **View real-time statistics** in the header
 
 ## 🛠️ Technologies Used
 
 - **Backend**: Flask (Python)
-- **Frontend**: HTML5, CSS3, JavaScript
+- **Frontend**: HTML5, CSS3, JavaScript (Vanilla)
+- **Authentication**: Session-based authentication
+- **Data Persistence**: JSON file storage
+- **Export**: CSV generation
 - **Data Structures**: 
-  - Linked List
-  - Queue (using deque)
-  - Stack
-  - Tree (Dictionary-based)
+  - Linked List (Custom implementation)
+  - Queue (using collections.deque)
+  - Stack (Python list)
+  - Tree (Nested dictionary)
   - Graph (Adjacency List)
-  - Hash Table (Custom implementation)
+  - Hash Table (Custom implementation with chaining)
 
 ## 📂 Project Structure
 
@@ -113,14 +159,22 @@ hospital/
 └── README.md             # Project documentation
 ```
 
-## 🎨 UI Features
+## 🎨 UI/UX Features
 
 - Modern gradient design with purple/blue theme
-- Responsive grid layout
+- Responsive grid layout (mobile, tablet, desktop)
 - Smooth animations and transitions
 - Interactive collapsible sections
+- Toast notifications for user actions
+- Real-time statistics dashboard
+- Search functionality with live filtering
+- Export buttons with visual feedback
+- Login page with demo credentials
+- User profile display with role badges
 - Hover effects and visual feedback
-- Mobile-friendly design
+- Touch-friendly buttons (44px minimum)
+- Auto-dismissing flash messages
+- Loading states and confirmations
 
 ## 📝 Data Structures Implementation
 
