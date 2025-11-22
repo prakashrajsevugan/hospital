@@ -386,6 +386,55 @@ footer p {
     box-shadow: 0 1px 3px rgba(0,0,0,0.05);
 }
 
+.staff-item-with-delete {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 12px;
+    background: white;
+    border-radius: 6px;
+    margin-bottom: 6px;
+    border-left: 3px solid #667eea;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.staff-item-with-delete span {
+    flex: 1;
+    font-size: 14px;
+    color: #333;
+}
+
+.delete-btn-small {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    color: white;
+    padding: 6px 12px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(245, 87, 108, 0.3);
+    min-width: 36px;
+    min-height: 36px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    touch-action: manipulation;
+    margin-left: 8px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .delete-btn-small:hover {
+        transform: scale(1.05);
+        box-shadow: 0 3px 10px rgba(245, 87, 108, 0.5);
+    }
+}
+
+.delete-btn-small:active {
+    transform: scale(0.95);
+    opacity: 0.9;
+}
+
 /* Tablet and Mobile Responsive Design */
 @media (max-width: 1024px) {
     main {

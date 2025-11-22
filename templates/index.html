@@ -100,7 +100,10 @@
                                 <div class="staff-list">
                                     {% if staff_list %}
                                         {% for staff in staff_list %}
-                                        <div class="staff-item">� {{staff}}</div>
+                                        <div class="staff-item-with-delete">
+                                            <span>👤 {{staff}}</span>
+                                            <a href="/delete_staff/{{dept}}/{{staff}}" class="delete-btn-small" onclick="return confirm('Delete {{staff}} from {{dept}}?')">🗑️</a>
+                                        </div>
                                         {% endfor %}
                                     {% else %}
                                         <div class="staff-item">No staff added yet</div>

@@ -238,6 +238,14 @@ def add_staff():
     return redirect("/")
 
 
+@app.route("/delete_staff/<department>/<staff_name>")
+def delete_staff(department, staff_name):
+    if department in hospital_tree["Hospital Director"]["departments"]:
+        if staff_name in hospital_tree["Hospital Director"]["departments"][department]:
+            hospital_tree["Hospital Director"]["departments"][department].remove(staff_name)
+    return redirect("/")
+
+
 if __name__ == '__main__':
     import os
     port = int(os.environ.get('PORT', 5000))
